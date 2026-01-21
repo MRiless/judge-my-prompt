@@ -1,0 +1,47 @@
+{
+  "id": "gpt4",
+  "name": "GPT-4",
+  "provider": "OpenAI",
+  "description": "OpenAI's GPT-4 - excels with numeric constraints, JSON format, and system prompts",
+  "enabled": true,
+  "leverWeights": {
+    "prompt-length": 15,
+    "context-inclusion": 20,
+    "persona-specification": 20,
+    "task-clarity": 20,
+    "examples-presence": 10,
+    "format-specification": 10,
+    "constraints-defined": 5
+  },
+  "bestPractices": [
+    {
+      "tip": "GPT-4 excels when you specify numeric constraints (length, count, etc.)",
+      "examples": {
+        "good": "Write a summary in exactly 3 paragraphs, each with 4-5 sentences.",
+        "bad": "Write a short summary"
+      }
+    },
+    {
+      "tip": "Request JSON output for structured data - GPT-4 handles it reliably",
+      "examples": {
+        "good": "Return the analysis as JSON with keys: 'summary', 'issues', 'recommendations'",
+        "bad": "Give me the analysis in some structured way"
+      }
+    },
+    {
+      "tip": "Use clear section headers with markdown formatting",
+      "examples": {
+        "good": "## Background\n...\n## Task\n...\n## Requirements\n...",
+        "bad": "Here's the background and the task and requirements all together"
+      }
+    }
+  ],
+  "preferredStructure": [
+    "System Context (persona)",
+    "Background Information",
+    "Specific Task",
+    "Format Requirements",
+    "Constraints"
+  ],
+  "deepAnalysisPrompt": "You are an expert prompt engineer. Analyze the following prompt intended for GPT-4. Identify strengths, areas for improvement, and provide a rewritten version that leverages GPT-4's strengths (numeric constraints, JSON formatting, clear markdown structure)."
+}

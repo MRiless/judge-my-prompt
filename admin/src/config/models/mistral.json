@@ -1,0 +1,47 @@
+{
+  "id": "mistral",
+  "name": "Mistral",
+  "provider": "Mistral AI",
+  "description": "Mistral AI models - efficient and strong at instruction following",
+  "enabled": true,
+  "leverWeights": {
+    "prompt-length": 15,
+    "context-inclusion": 15,
+    "persona-specification": 15,
+    "task-clarity": 25,
+    "examples-presence": 15,
+    "format-specification": 10,
+    "constraints-defined": 5
+  },
+  "bestPractices": [
+    {
+      "tip": "Mistral excels with clear, well-structured instructions",
+      "examples": {
+        "good": "Task: Summarize the following article.\nConstraints: Maximum 100 words.\nFormat: Bullet points.",
+        "bad": "summarize this"
+      }
+    },
+    {
+      "tip": "Use few-shot examples to establish the pattern you want",
+      "examples": {
+        "good": "Example 1: Input: 'The quick brown fox' -> Sentiment: Neutral\nExample 2: Input: 'I love this!' -> Sentiment: Positive\nNow analyze: 'This is terrible'",
+        "bad": "What's the sentiment?"
+      }
+    },
+    {
+      "tip": "Mistral handles code generation well - be specific about language and requirements",
+      "examples": {
+        "good": "Write a TypeScript function that validates email addresses. Use regex. Return boolean. Handle edge cases.",
+        "bad": "email validation code"
+      }
+    }
+  ],
+  "preferredStructure": [
+    "Task Definition",
+    "Few-Shot Examples",
+    "Specific Requirements",
+    "Output Format",
+    "Constraints"
+  ],
+  "deepAnalysisPrompt": "You are an expert prompt engineer. Analyze the following prompt intended for Mistral. Identify strengths, areas for improvement, and provide a rewritten version that follows Mistral's best practices (clear structure, few-shot examples, specific requirements)."
+}

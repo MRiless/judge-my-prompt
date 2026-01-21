@@ -1,0 +1,47 @@
+{
+  "id": "gemini",
+  "name": "Gemini",
+  "provider": "Google",
+  "description": "Google's Gemini - strong multi-modal capabilities and reasoning",
+  "enabled": true,
+  "leverWeights": {
+    "prompt-length": 15,
+    "context-inclusion": 20,
+    "persona-specification": 10,
+    "task-clarity": 25,
+    "examples-presence": 15,
+    "format-specification": 10,
+    "constraints-defined": 5
+  },
+  "bestPractices": [
+    {
+      "tip": "Gemini excels at multi-step reasoning - break complex tasks into steps",
+      "examples": {
+        "good": "Step 1: Analyze the data. Step 2: Identify patterns. Step 3: Summarize findings.",
+        "bad": "Analyze this data and give me insights"
+      }
+    },
+    {
+      "tip": "For multi-modal tasks, be explicit about what to focus on in images/documents",
+      "examples": {
+        "good": "Look at the chart and extract the values for Q1-Q4. Focus on the revenue line.",
+        "bad": "What's in this image?"
+      }
+    },
+    {
+      "tip": "Gemini responds well to examples with clear input/output pairs",
+      "examples": {
+        "good": "Input: 'hello world' -> Output: 'HELLO WORLD'\nNow transform: 'test string'",
+        "bad": "Make text uppercase"
+      }
+    }
+  ],
+  "preferredStructure": [
+    "Clear Task Statement",
+    "Step-by-Step Instructions",
+    "Examples with Input/Output",
+    "Context (if needed)",
+    "Output Format"
+  ],
+  "deepAnalysisPrompt": "You are an expert prompt engineer. Analyze the following prompt intended for Google Gemini. Identify strengths, areas for improvement, and provide a rewritten version that leverages Gemini's strengths (multi-step reasoning, clear examples, step-by-step instructions)."
+}

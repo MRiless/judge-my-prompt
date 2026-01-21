@@ -1,0 +1,47 @@
+{
+  "id": "claude",
+  "name": "Claude",
+  "provider": "Anthropic",
+  "description": "Anthropic's Claude models - excels with structured XML tags and clear boundaries",
+  "enabled": true,
+  "leverWeights": {
+    "prompt-length": 15,
+    "context-inclusion": 25,
+    "persona-specification": 15,
+    "task-clarity": 20,
+    "examples-presence": 10,
+    "format-specification": 5,
+    "constraints-defined": 10
+  },
+  "bestPractices": [
+    {
+      "tip": "Use XML tags to structure your prompt (e.g., <context>, <task>, <constraints>)",
+      "examples": {
+        "good": "<context>I'm building a web app</context>\n<task>Review this code for security issues</task>",
+        "bad": "Review this code for security issues, by the way I'm building a web app"
+      }
+    },
+    {
+      "tip": "Claude responds well to explicit role assignments with 'You are...'",
+      "examples": {
+        "good": "You are a senior security engineer reviewing code for vulnerabilities.",
+        "bad": "Check for security stuff"
+      }
+    },
+    {
+      "tip": "Be explicit about what you want Claude to avoid or include",
+      "examples": {
+        "good": "Do not include placeholder comments. Provide complete, working code.",
+        "bad": "Give me good code"
+      }
+    }
+  ],
+  "preferredStructure": [
+    "Context/Background",
+    "Task Definition",
+    "Constraints/Requirements",
+    "Output Format",
+    "Examples (if applicable)"
+  ],
+  "deepAnalysisPrompt": "You are an expert prompt engineer. Analyze the following prompt intended for a Claude model. Identify strengths, areas for improvement, and provide a rewritten version that follows Claude's best practices (XML tags, clear structure, explicit constraints)."
+}

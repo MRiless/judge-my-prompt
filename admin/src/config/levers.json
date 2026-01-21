@@ -1,0 +1,201 @@
+{
+  "levers": [
+    {
+      "id": "prompt-length",
+      "name": "Prompt Length",
+      "description": "Checks for sufficient detail in the prompt",
+      "weight": 15,
+      "enabled": true,
+      "thresholds": {
+        "min": 50,
+        "max": 4000,
+        "optimal": { "min": 100, "max": 2000 }
+      },
+      "feedback": {
+        "missing": "Your prompt is too short. Add more context and details.",
+        "weak": "Your prompt could use more detail to get better results.",
+        "good": "Good prompt length with adequate detail."
+      },
+      "priority": 1
+    },
+    {
+      "id": "context-inclusion",
+      "name": "Context Inclusion",
+      "description": "Detects background information and context markers",
+      "weight": 20,
+      "enabled": true,
+      "thresholds": {},
+      "patterns": [
+        "context:",
+        "background:",
+        "situation:",
+        "here's the context",
+        "for context",
+        "the situation is",
+        "currently",
+        "we have",
+        "our",
+        "my project",
+        "my application",
+        "i'm working on",
+        "i am building"
+      ],
+      "feedback": {
+        "missing": "Add context about your situation or project to get more relevant responses.",
+        "weak": "Consider adding more background information for better results.",
+        "good": "Good context provided!"
+      },
+      "priority": 2
+    },
+    {
+      "id": "persona-specification",
+      "name": "Persona Specification",
+      "description": "Checks for role or persona assignment",
+      "weight": 15,
+      "enabled": true,
+      "thresholds": {},
+      "patterns": [
+        "act as",
+        "you are",
+        "you're a",
+        "as a",
+        "imagine you're",
+        "pretend you're",
+        "take the role of",
+        "from the perspective of",
+        "expert in",
+        "specialist",
+        "senior",
+        "experienced"
+      ],
+      "feedback": {
+        "missing": "Consider assigning a persona or role (e.g., 'Act as a senior developer...').",
+        "weak": "Your persona could be more specific to the task.",
+        "good": "Good persona specification!"
+      },
+      "priority": 3
+    },
+    {
+      "id": "task-clarity",
+      "name": "Task Clarity",
+      "description": "Evaluates clear task definition and action words",
+      "weight": 20,
+      "enabled": true,
+      "thresholds": {},
+      "patterns": [
+        "create",
+        "write",
+        "generate",
+        "explain",
+        "analyze",
+        "summarize",
+        "compare",
+        "review",
+        "help me",
+        "i need",
+        "please",
+        "build",
+        "implement",
+        "design",
+        "develop",
+        "fix",
+        "debug",
+        "optimize",
+        "refactor"
+      ],
+      "feedback": {
+        "missing": "Clearly state what you want the AI to do (e.g., 'Write...', 'Explain...', 'Create...').",
+        "weak": "Be more specific about the task you want completed.",
+        "good": "Clear task definition!"
+      },
+      "priority": 1
+    },
+    {
+      "id": "examples-presence",
+      "name": "Examples Presence",
+      "description": "Detects example patterns for better understanding",
+      "weight": 10,
+      "enabled": true,
+      "thresholds": {},
+      "patterns": [
+        "for example",
+        "such as",
+        "like this",
+        "here's an example",
+        "e.g.",
+        "example:",
+        "sample:",
+        "similar to",
+        "here is an example",
+        "for instance"
+      ],
+      "feedback": {
+        "missing": "Adding examples can significantly improve response quality.",
+        "weak": "Consider adding more examples to clarify your expectations.",
+        "good": "Great use of examples!"
+      },
+      "priority": 4
+    },
+    {
+      "id": "format-specification",
+      "name": "Format Specification",
+      "description": "Checks for output format requests",
+      "weight": 10,
+      "enabled": true,
+      "thresholds": {},
+      "patterns": [
+        "format:",
+        "in json",
+        "as a list",
+        "bullet points",
+        "numbered list",
+        "markdown",
+        "table format",
+        "step by step",
+        "in the format",
+        "structured as",
+        "output as",
+        "return as",
+        "respond with"
+      ],
+      "feedback": {
+        "missing": "Specify your desired output format (e.g., list, JSON, markdown).",
+        "weak": "Be more specific about the format you want.",
+        "good": "Good format specification!"
+      },
+      "priority": 5
+    },
+    {
+      "id": "constraints-defined",
+      "name": "Constraints Defined",
+      "description": "Detects limits and boundaries in the prompt",
+      "weight": 10,
+      "enabled": true,
+      "thresholds": {},
+      "patterns": [
+        "must",
+        "should",
+        "don't",
+        "do not",
+        "avoid",
+        "limit",
+        "maximum",
+        "minimum",
+        "only",
+        "at least",
+        "at most",
+        "no more than",
+        "keep it",
+        "make sure",
+        "ensure",
+        "without"
+      ],
+      "feedback": {
+        "missing": "Define constraints or boundaries for more focused results.",
+        "weak": "Consider adding more specific constraints.",
+        "good": "Good constraints defined!"
+      },
+      "priority": 6
+    }
+  ]
+}

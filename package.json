@@ -1,0 +1,31 @@
+{
+  "name": "prompt-strength",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Privacy-first web app that provides real-time feedback on prompt quality",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:admin\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:admin": "cd admin && npm run dev",
+    "build": "npm run build:frontend && npm run build:admin",
+    "build:frontend": "cd frontend && npm run build",
+    "build:admin": "cd admin && npm run build",
+    "install:all": "npm install && cd frontend && npm install && cd ../admin && npm install",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:tunnel": "docker-compose --profile tunnel up -d"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "keywords": [
+    "prompt",
+    "ai",
+    "llm",
+    "evaluation",
+    "privacy"
+  ],
+  "license": "MIT"
+}
