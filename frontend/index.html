@@ -10,5 +10,36 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!--
+      Cloudflare Web Analytics (FREE, privacy-first, no cookies)
+
+      SETUP STEPS:
+      1. Go to https://dash.cloudflare.com/ (create free account if needed)
+      2. Click "Web Analytics" in left sidebar
+      3. Click "Add a site" → enter your domain
+      4. Copy the token from the script they give you
+      5. Replace YOUR_TOKEN_HERE below and uncomment the script
+
+      Dashboard: https://dash.cloudflare.com/ → Web Analytics
+    -->
+    <!-- <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "YOUR_TOKEN_HERE"}'></script> -->
+
+    <!--
+      UPGRADE PATH (when you want more features):
+      - Plausible ($9/mo): https://plausible.io - goals, funnels, custom events
+      - Simple Analytics ($9/mo): https://simpleanalytics.com - similar features
+    -->
+
+    <!--
+      AD NETWORK GAMEPLAN:
+
+      When ready to monetize:
+      1. Screenshot your Cloudflare analytics showing monthly traffic
+      2. Apply to EthicalAds (https://ethicalads.io) at ~1k monthly visitors
+      3. Apply to Carbon Ads (https://carbonads.net) at ~10k monthly visitors
+      4. Update src/config/affiliates.ts with your ad network IDs
+      5. Ads will automatically load in production
+    -->
   </body>
 </html>

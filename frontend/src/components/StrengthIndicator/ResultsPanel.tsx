@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { EvaluationResult, ModelConfig, DeepAnalysisResult } from '@shared/types';
+import { apiProviders } from '../../config/affiliates';
 
 interface ResultsPanelProps {
   result: EvaluationResult | null;
@@ -256,6 +257,15 @@ function ResultsPanel({
         <p className="deep-analysis-note">
           Get detailed feedback powered by Claude
         </p>
+        <div className="api-key-link">
+          <a
+            href={apiProviders.anthropic.getApiKeyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Don't have an API key? Get one from Anthropic →
+          </a>
+        </div>
       </div>
     </div>
   );

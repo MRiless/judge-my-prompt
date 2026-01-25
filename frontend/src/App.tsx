@@ -7,6 +7,7 @@ import PromptEditor from './components/PromptEditor/PromptEditor';
 import ResultsPanel from './components/StrengthIndicator/ResultsPanel';
 import ConsentModal from './components/DeepAnalysis/ConsentModal';
 import HowItWorks from './components/HowItWorks/HowItWorks';
+import AdContainer from './components/Monetization/AdContainer';
 import type { DeepAnalysisResult } from '@shared/types';
 
 const STORAGE_KEY = 'prompt-judge-api-key';
@@ -147,6 +148,9 @@ function App() {
             onUseImprovedPrompt={handleUseImprovedPrompt}
           />
         </div>
+
+        {/* Privacy-friendly ad placement */}
+        <AdContainer />
       </main>
 
       <Footer />

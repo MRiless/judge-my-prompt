@@ -1550,3 +1550,209 @@ body {
     gap: 0.375rem;
   }
 }
+
+/* ==========================================
+   Monetization Styles
+   ========================================== */
+
+/* Ad Container - Carbon Ads / EthicalAds */
+.ad-container {
+  max-width: 330px;
+  margin: 1.5rem auto 0;
+  text-align: center;
+}
+
+/* Carbon Ads Styling Override */
+#carbonads {
+  display: block;
+  overflow: hidden;
+  max-width: 330px;
+  margin: 0 auto;
+  padding: 1rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+#carbonads a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+#carbonads a:hover {
+  color: var(--color-primary);
+}
+
+.carbon-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.carbon-img {
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.carbon-img img {
+  border-radius: var(--radius);
+  width: 130px;
+  height: auto;
+}
+
+.carbon-text {
+  flex: 1;
+  text-align: left;
+  color: var(--color-text);
+}
+
+.carbon-poweredby {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Support Button in Footer */
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+@media (min-width: 500px) {
+  .footer-content {
+    flex-direction: row;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+}
+
+.support-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  background: linear-gradient(135deg, #ff5e5b, #ff8a5b);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.support-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 94, 91, 0.3);
+}
+
+.support-button:active {
+  transform: scale(0.98);
+}
+
+.support-button svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Affiliate Link Styles */
+.affiliate-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--color-primary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.affiliate-link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+[data-theme="dark"] .affiliate-link:hover {
+  color: var(--color-primary-light);
+}
+
+.affiliate-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Get API Key Link in Deep Analysis Section */
+.api-key-link {
+  display: block;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.api-key-link a {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.api-key-link a:hover {
+  color: var(--color-primary);
+}
+
+/* Provider Links in How It Works */
+.provider-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.provider-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.provider-link svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Responsive adjustments for ads */
+@media (max-width: 639px) {
+  .ad-container {
+    margin-top: 1rem;
+  }
+
+  #carbonads {
+    padding: 0.75rem;
+  }
+
+  .carbon-wrap {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .carbon-text {
+    text-align: center;
+  }
+
+  .carbon-poweredby {
+    text-align: center;
+  }
+}

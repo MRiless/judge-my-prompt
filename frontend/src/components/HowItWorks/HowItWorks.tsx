@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { apiProviders, modelProviderMap } from '../../config/affiliates';
 
 interface HowItWorksProps {
   onBack: () => void;
@@ -219,6 +220,24 @@ function HowItWorks({ onBack }: HowItWorksProps) {
                 <li key={i}>{tip}</li>
               ))}
             </ul>
+            {/* Affiliate link to get API key */}
+            {modelProviderMap[selectedModel] && (
+              <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--color-border)' }}>
+                <a
+                  href={apiProviders[modelProviderMap[selectedModel]].getApiKeyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="affiliate-link"
+                >
+                  <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.5 3.5H3.5C2.94772 3.5 2.5 3.94772 2.5 4.5V12.5C2.5 13.0523 2.94772 13.5 3.5 13.5H11.5C12.0523 13.5 12.5 13.0523 12.5 12.5V9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    <path d="M9.5 2.5H13.5V6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M13.5 2.5L7.5 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                  {apiProviders[modelProviderMap[selectedModel]].description}
+                </a>
+              </div>
+            )}
           </div>
         </section>
 
