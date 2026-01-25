@@ -69,7 +69,8 @@ export const primarySupportLink = supportLinks.buyMeACoffee;
 // Ad Network Configuration
 export const adConfig = {
   // Set to true when ready to show ads in production
-  enabled: import.meta.env.PROD,
+  // Currently disabled until we hit Carbon Ads minimum (~10k monthly visitors)
+  enabled: false,
 
   // Carbon Ads configuration
   carbonAds: {

@@ -124,16 +124,20 @@ function App() {
 
       <main className="main-content">
         <div className="workspace">
-          <PromptEditor
-            prompt={prompt}
-            onPromptChange={(newPrompt) => {
-              setPrompt(newPrompt);
-              setAnalysisResult(null);
-            }}
-            selectedModel={selectedModel}
-            onModelChange={setSelectedModel}
-            models={models}
-          />
+          <div className="left-column">
+            <PromptEditor
+              prompt={prompt}
+              onPromptChange={(newPrompt) => {
+                setPrompt(newPrompt);
+                setAnalysisResult(null);
+              }}
+              selectedModel={selectedModel}
+              onModelChange={setSelectedModel}
+              models={models}
+            />
+            {/* Privacy-friendly ad placement - hidden until we hit traffic minimums */}
+            <AdContainer />
+          </div>
 
           <ResultsPanel
             result={result}
@@ -148,9 +152,6 @@ function App() {
             onUseImprovedPrompt={handleUseImprovedPrompt}
           />
         </div>
-
-        {/* Privacy-friendly ad placement */}
-        <AdContainer />
       </main>
 
       <Footer />
