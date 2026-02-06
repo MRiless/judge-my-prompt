@@ -2,8 +2,10 @@
   "id": "mistral",
   "name": "Mistral",
   "provider": "Mistral AI",
-  "description": "Mistral AI models - efficient and strong at instruction following",
+  "providerId": "mistral",
+  "description": "Mistral AI models (Large 3, Medium 3, Codestral) - efficient MoE architecture, strong instruction following and code generation",
   "enabled": true,
+  "analysisModelId": "mistral-small-latest",
   "leverWeights": {
     "prompt-length": 15,
     "context-inclusion": 15,
@@ -15,24 +17,31 @@
   },
   "bestPractices": [
     {
-      "tip": "Mistral excels with clear, well-structured instructions",
+      "tip": "Mistral excels with clear, well-structured instructions - its MoE architecture (675B total, 41B active) routes to specialized experts",
       "examples": {
-        "good": "Task: Summarize the following article.\nConstraints: Maximum 100 words.\nFormat: Bullet points.",
+        "good": "Task: Summarize the following article.\nConstraints: Maximum 100 words.\nFormat: Bullet points.\nTone: Professional.",
         "bad": "summarize this"
       }
     },
     {
-      "tip": "Use few-shot examples to establish the pattern you want",
+      "tip": "Use few-shot examples to establish the pattern you want - Mistral follows demonstrated patterns very reliably",
       "examples": {
         "good": "Example 1: Input: 'The quick brown fox' -> Sentiment: Neutral\nExample 2: Input: 'I love this!' -> Sentiment: Positive\nNow analyze: 'This is terrible'",
         "bad": "What's the sentiment?"
       }
     },
     {
-      "tip": "Mistral handles code generation well - be specific about language and requirements",
+      "tip": "For code tasks, consider Codestral or Devstral 2 - Mistral's code-specialized models support fill-in-the-middle (FIM)",
       "examples": {
-        "good": "Write a TypeScript function that validates email addresses. Use regex. Return boolean. Handle edge cases.",
+        "good": "Write a TypeScript function that validates email addresses using a regex pattern. Return boolean. Handle edge cases: empty string, missing @, multiple @, missing domain.",
         "bad": "email validation code"
+      }
+    },
+    {
+      "tip": "Mistral supports 256K context - include relevant documentation or code directly rather than summarizing",
+      "examples": {
+        "good": "Here is the API documentation. Based on this, write a client library that covers all endpoints with proper error handling.",
+        "bad": "Write an API client"
       }
     }
   ],
@@ -43,5 +52,5 @@
     "Output Format",
     "Constraints"
   ],
-  "deepAnalysisPrompt": "You are an expert prompt engineer. Analyze the following prompt intended for Mistral. Identify strengths, areas for improvement, and provide a rewritten version that follows Mistral's best practices (clear structure, few-shot examples, specific requirements)."
+  "deepAnalysisPrompt": "You are an expert prompt engineer specializing in Mistral AI models (Large 3, Medium 3, Codestral). Analyze the following prompt and provide feedback on how to optimize it for Mistral's strengths: clear task structure, few-shot examples, specific requirements, and leveraging its instruction-following capabilities."
 }

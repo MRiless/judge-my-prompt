@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import type { EvaluationResult, ModelConfig, DeepAnalysisResult } from '@shared/types';
-import { apiProviders } from '../../config/affiliates';
+import type { EvaluationResult, ModelConfig, DeepAnalysisResult, ProviderId } from '@shared/types';
+import ApiKeySettings from '../ApiKeySettings/ApiKeySettings';
+import { getProviderForModel, getProviderName } from '../../config/affiliates';
 
 interface ResultsPanelProps {
   result: EvaluationResult | null;
@@ -13,6 +14,8 @@ interface ResultsPanelProps {
   analysisResult?: DeepAnalysisResult | null;
   analysisError?: string | null;
   onUseImprovedPrompt?: () => void;
+  apiKeys: Record<string, string>;
+  onApiKeyChange: (providerId: ProviderId, key: string) => void;
 }
 
 function ResultsPanel({
@@ -26,9 +29,13 @@ function ResultsPanel({
   analysisResult,
   analysisError,
   onUseImprovedPrompt,
+  apiKeys,
+  onApiKeyChange,
 }: ResultsPanelProps) {
   const [showBreakdown, setShowBreakdown] = useState(false);
   const model = models.find(m => m.id === selectedModel);
+  const providerId = model?.providerId || getProviderForModel(selectedModel);
+  const providerName = model?.provider || getProviderName(selectedModel);
 
   if (!hasPrompt || !result) {
     return (
@@ -228,7 +235,7 @@ function ResultsPanel({
       {analysisError && (
         <div className="analysis-results" style={{ borderColor: 'var(--color-error)' }}>
           <p style={{ color: 'var(--color-error)', fontSize: '0.875rem' }}>
-            Analysis failed: {analysisError}
+            {analysisError}
           </p>
         </div>
       )}
@@ -243,30 +250,29 @@ function ResultsPanel({
           {isAnalyzing ? (
             <>
               <span className="spinner" />
-              Analyzing...
+              Analyzing with {providerName}...
             </>
           ) : (
             <>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8 3V13M3 8H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
               </svg>
-              Deep Analysis with AI
+              Deep Analysis with {model?.name || 'AI'}
             </>
           )}
         </button>
         <p className="deep-analysis-note">
-          Get detailed feedback powered by Claude
+          Uses your {providerName} API key to analyze your prompt
         </p>
-        <div className="api-key-link">
-          <a
-            href={apiProviders.anthropic.getApiKeyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Don't have an API key? Get one from Anthropic →
-          </a>
-        </div>
       </div>
+
+      {/* API Key Settings */}
+      <ApiKeySettings
+        providerId={providerId}
+        providerName={providerName}
+        onKeyChange={onApiKeyChange}
+        apiKeys={apiKeys}
+      />
     </div>
   );
 }

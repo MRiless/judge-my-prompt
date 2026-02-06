@@ -2,8 +2,10 @@
   "id": "claude",
   "name": "Claude",
   "provider": "Anthropic",
-  "description": "Anthropic's Claude models - excels with structured XML tags and clear boundaries",
+  "providerId": "anthropic",
+  "description": "Anthropic's Claude models (Opus 4.6, Sonnet 4.5, Haiku 4.5) - excels with structured XML tags, clear boundaries, and extended thinking",
   "enabled": true,
+  "analysisModelId": "claude-haiku-4-5-20251001",
   "leverWeights": {
     "prompt-length": 15,
     "context-inclusion": 25,
@@ -15,33 +17,40 @@
   },
   "bestPractices": [
     {
-      "tip": "Use XML tags to structure your prompt (e.g., <context>, <task>, <constraints>)",
+      "tip": "Use XML tags to structure your prompt (e.g., <context>, <task>, <constraints>) - Claude is specifically trained to follow XML-delimited instructions",
       "examples": {
         "good": "<context>I'm building a web app</context>\n<task>Review this code for security issues</task>",
         "bad": "Review this code for security issues, by the way I'm building a web app"
       }
     },
     {
-      "tip": "Claude responds well to explicit role assignments with 'You are...'",
+      "tip": "Claude responds well to explicit role assignments with 'You are...' and benefits from detailed system-level context",
       "examples": {
-        "good": "You are a senior security engineer reviewing code for vulnerabilities.",
+        "good": "You are a senior security engineer reviewing code for vulnerabilities. Think step by step about potential attack vectors.",
         "bad": "Check for security stuff"
       }
     },
     {
-      "tip": "Be explicit about what you want Claude to avoid or include",
+      "tip": "Be explicit about what you want Claude to avoid or include - Claude follows negative constraints (don'ts) very reliably",
       "examples": {
-        "good": "Do not include placeholder comments. Provide complete, working code.",
+        "good": "Do not include placeholder comments. Provide complete, working code. Do not use deprecated APIs.",
         "bad": "Give me good code"
+      }
+    },
+    {
+      "tip": "For complex tasks, use Claude's extended thinking by breaking the problem into stages or asking it to think through the problem first",
+      "examples": {
+        "good": "First, analyze the problem and identify edge cases. Then, write the implementation. Finally, write tests for the edge cases you identified.",
+        "bad": "Write code and tests"
       }
     }
   ],
   "preferredStructure": [
-    "Context/Background",
+    "Context/Background (in XML tags)",
     "Task Definition",
     "Constraints/Requirements",
     "Output Format",
     "Examples (if applicable)"
   ],
-  "deepAnalysisPrompt": "You are an expert prompt engineer. Analyze the following prompt intended for a Claude model. Identify strengths, areas for improvement, and provide a rewritten version that follows Claude's best practices (XML tags, clear structure, explicit constraints)."
+  "deepAnalysisPrompt": "You are an expert prompt engineer specializing in Anthropic's Claude models (Opus 4.6, Sonnet 4.5, Haiku 4.5). Analyze the following prompt and provide feedback on how to optimize it for Claude's strengths: XML tag structure, clear role assignment, explicit constraints, and extended thinking for complex reasoning."
 }

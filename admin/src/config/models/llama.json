@@ -1,0 +1,56 @@
+{
+  "id": "llama",
+  "name": "Llama (Meta)",
+  "provider": "Meta",
+  "providerId": "meta",
+  "description": "Meta's Llama 4 models (Maverick 400B, Scout 109B) - open-weight MoE architecture, natively multimodal, massive context (up to 10M tokens)",
+  "enabled": true,
+  "analysisModelId": "meta-llama/Llama-4-Maverick-17B-128E-Instruct",
+  "leverWeights": {
+    "prompt-length": 20,
+    "context-inclusion": 20,
+    "persona-specification": 15,
+    "task-clarity": 25,
+    "examples-presence": 10,
+    "format-specification": 5,
+    "constraints-defined": 5
+  },
+  "bestPractices": [
+    {
+      "tip": "Llama 4 benefits from explicit, direct instructions without ambiguity - it follows clear directives very well",
+      "examples": {
+        "good": "Write a Python function that takes a list of numbers and returns the sum. Include type hints and a docstring.",
+        "bad": "Help me with some Python code for numbers"
+      }
+    },
+    {
+      "tip": "Llama 4 is natively multimodal - you can include images directly. For text tasks, be specific about language and requirements.",
+      "examples": {
+        "good": "Analyze this image and describe: 1) The main subject 2) The color palette 3) The composition. Then suggest improvements.",
+        "bad": "What do you see?"
+      }
+    },
+    {
+      "tip": "Keep context focused - Llama 4 Scout supports up to 10M tokens but performs best with well-organized, relevant context",
+      "examples": {
+        "good": "Context: E-commerce app using Next.js and PostgreSQL. Task: Write a function to calculate shipping costs based on weight and distance.",
+        "bad": "I have this big e-commerce app with lots of features and I need shipping calculation among many other things..."
+      }
+    },
+    {
+      "tip": "Llama 4 uses a Mixture of Experts (MoE) architecture - it excels at routing to specialized capabilities. Frame your request clearly to activate the right expertise.",
+      "examples": {
+        "good": "As a database optimization expert, analyze this SQL query and suggest index improvements for PostgreSQL 16.",
+        "bad": "Make this query faster"
+      }
+    }
+  ],
+  "preferredStructure": [
+    "Direct Task Statement",
+    "Specific Requirements",
+    "Concise, Relevant Context",
+    "Expected Output Format",
+    "Constraints"
+  ],
+  "deepAnalysisPrompt": "You are an expert prompt engineer specializing in Meta's Llama 4 models (Maverick, Scout). Analyze the following prompt and provide feedback on how to optimize it for Llama 4's strengths: direct instruction-following, focused context, explicit requirements, and clear task framing."
+}

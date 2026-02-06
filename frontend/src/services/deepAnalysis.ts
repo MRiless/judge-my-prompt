@@ -1,65 +1,68 @@
-import type { DeepAnalysisResult, ModelConfig, ExamplePrompt } from '@shared/types';
+import type { DeepAnalysisResult, ModelConfig, ExamplePrompt, ProviderId } from '@shared/types';
 
-// Deep analysis service using Claude API
-// Uses claude-3-haiku for cost efficiency
+// Deep analysis service supporting multiple AI providers
 
 export class DeepAnalysisService {
-  private apiKey: string | null = null;
+  private apiKeys: Record<string, string> = {};
 
-  configure(apiKey: string): void {
-    this.apiKey = apiKey;
+  configure(providerId: ProviderId, apiKey: string): void {
+    this.apiKeys[providerId] = apiKey;
   }
 
-  isConfigured(): boolean {
-    return this.apiKey !== null && this.apiKey.length > 0;
+  configureAll(keys: Record<string, string>): void {
+    this.apiKeys = { ...keys };
+  }
+
+  isConfiguredFor(providerId: ProviderId): boolean {
+    const key = this.apiKeys[providerId];
+    return key !== undefined && key !== null && key.length > 0;
+  }
+
+  getConfiguredProvider(): ProviderId | null {
+    for (const pid of Object.keys(this.apiKeys)) {
+      if (this.apiKeys[pid]?.length > 0) return pid as ProviderId;
+    }
+    return null;
   }
 
   async analyze(
     prompt: string,
     modelConfig: ModelConfig
   ): Promise<DeepAnalysisResult> {
-    if (!this.apiKey) {
-      throw new Error('API key not configured');
+    const providerId = modelConfig.providerId || 'anthropic';
+    const apiKey = this.apiKeys[providerId];
+
+    if (!apiKey) {
+      throw new Error(`No API key configured for ${modelConfig.provider}. Please add your ${modelConfig.provider} API key in the settings below.`);
     }
 
     const systemPrompt = modelConfig.deepAnalysisPrompt ||
       `You are an expert prompt engineer. Analyze prompts and provide actionable feedback to improve them for ${modelConfig.name}.`;
 
-    const userPrompt = `Analyze this prompt intended for ${modelConfig.name}:
-
-<prompt>
-${prompt}
-</prompt>
-
-Provide a brief analysis with:
-1. **Strengths** (2-3 bullet points)
-2. **Areas to Improve** (2-3 bullet points with specific suggestions)
-3. **Improved Version** (rewrite the prompt applying your suggestions)
-
-Keep your response concise and actionable.`;
-
-    // Use backend proxy to avoid CORS issues
-    const response = await fetch('/api/claude/analyze', {
+    // Use the new multi-provider backend endpoint
+    const response = await fetch('/api/analyze', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        apiKey: this.apiKey,
-        prompt: prompt,
+        apiKey,
+        prompt,
         modelName: modelConfig.name,
-        systemPrompt: systemPrompt,
+        systemPrompt,
+        providerId,
+        analysisModelId: modelConfig.analysisModelId,
       }),
     });
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      console.error('Claude API error:', errorData);
+      console.error('AI API error:', errorData);
       throw new Error(errorData.error || `API error: ${response.status}`);
     }
 
     const data = await response.json();
-    const content = data.content?.[0]?.text || '';
+    const content = data.content || '';
 
     return this.parseAnalysisResponse(content);
   }
@@ -97,9 +100,9 @@ Keep your response concise and actionable.`;
       // Parse content based on section
       if (currentSection === 'strengths' || currentSection === 'improvements') {
         // Look for bullet points or numbered items
-        if (trimmed.startsWith('-') || trimmed.startsWith('•') || trimmed.startsWith('*') || trimmed.match(/^\d+[\.\)]/)) {
+        if (trimmed.startsWith('-') || trimmed.startsWith('\u2022') || trimmed.startsWith('*') || trimmed.match(/^\d+[\.\)]/)) {
           const item = trimmed
-            .replace(/^[-•*]+\s*/, '')
+            .replace(/^[-\u2022*]+\s*/, '')
             .replace(/^\d+[\.\)]\s*/, '')
             .replace(/^\*\*/, '')
             .replace(/\*\*$/, '')
@@ -131,7 +134,7 @@ Keep your response concise and actionable.`;
         }
       } else if (currentSection === 'examples') {
         // Look for example format: - **[Title]**: "prompt" or **Title**: "prompt"
-        const exampleMatch = trimmed.match(/^[-•*]?\s*\*?\*?\[?([^\]:\n]{3,40})\]?\*?\*?:\s*["']?(.{20,})["']?$/);
+        const exampleMatch = trimmed.match(/^[-\u2022*]?\s*\*?\*?\[?([^\]:\n]{3,40})\]?\*?\*?:\s*["']?(.{20,})["']?$/);
         if (exampleMatch) {
           examplePrompts.push({
             title: exampleMatch[1].trim().replace(/^\*\*|\*\*$/g, '').replace(/^\[|\]$/g, ''),

@@ -1,9 +1,11 @@
 {
   "id": "gpt4",
-  "name": "GPT-4",
+  "name": "GPT (OpenAI)",
   "provider": "OpenAI",
-  "description": "OpenAI's GPT-4 - excels with numeric constraints, JSON format, and system prompts",
+  "providerId": "openai",
+  "description": "OpenAI's GPT models (GPT-4.1, GPT-4o, o3/o4-mini) - excels with structured outputs, JSON mode, system prompts, and developer messages",
   "enabled": true,
+  "analysisModelId": "gpt-4.1-mini",
   "leverWeights": {
     "prompt-length": 15,
     "context-inclusion": 20,
@@ -15,33 +17,40 @@
   },
   "bestPractices": [
     {
-      "tip": "GPT-4 excels when you specify numeric constraints (length, count, etc.)",
+      "tip": "GPT models excel when you specify numeric constraints (length, count, etc.) and use structured output formats",
       "examples": {
-        "good": "Write a summary in exactly 3 paragraphs, each with 4-5 sentences.",
+        "good": "Write a summary in exactly 3 paragraphs, each with 4-5 sentences. Return as JSON with keys: 'paragraphs', 'word_count'.",
         "bad": "Write a short summary"
       }
     },
     {
-      "tip": "Request JSON output for structured data - GPT-4 handles it reliably",
+      "tip": "Request JSON output for structured data - GPT-4.1 and later models support guaranteed JSON schema output via structured outputs",
       "examples": {
-        "good": "Return the analysis as JSON with keys: 'summary', 'issues', 'recommendations'",
+        "good": "Return the analysis as JSON with keys: 'summary', 'issues', 'recommendations'. Each issue should have 'severity' (high/medium/low) and 'description'.",
         "bad": "Give me the analysis in some structured way"
       }
     },
     {
-      "tip": "Use clear section headers with markdown formatting",
+      "tip": "Use clear section headers with markdown formatting - GPT models parse markdown structure well",
       "examples": {
         "good": "## Background\n...\n## Task\n...\n## Requirements\n...",
         "bad": "Here's the background and the task and requirements all together"
       }
+    },
+    {
+      "tip": "For reasoning tasks, consider using o3/o4-mini models which have built-in chain-of-thought. For standard GPT models, explicitly ask for step-by-step reasoning.",
+      "examples": {
+        "good": "Think through this step by step. First identify the problem, then list possible solutions, then evaluate each one.",
+        "bad": "What's the answer?"
+      }
     }
   ],
   "preferredStructure": [
-    "System Context (persona)",
+    "System Context (persona/role)",
     "Background Information",
     "Specific Task",
-    "Format Requirements",
+    "Format Requirements (JSON schema if applicable)",
     "Constraints"
   ],
-  "deepAnalysisPrompt": "You are an expert prompt engineer. Analyze the following prompt intended for GPT-4. Identify strengths, areas for improvement, and provide a rewritten version that leverages GPT-4's strengths (numeric constraints, JSON formatting, clear markdown structure)."
+  "deepAnalysisPrompt": "You are an expert prompt engineer specializing in OpenAI's GPT models (GPT-4.1, GPT-4o, o3/o4-mini reasoning models). Analyze the following prompt and provide feedback on how to optimize it for GPT's strengths: numeric constraints, JSON/structured output, clear markdown structure, and system-level context."
 }

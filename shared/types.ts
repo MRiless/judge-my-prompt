@@ -1,5 +1,17 @@
 // Shared TypeScript types for Prompt Strength Tool
 
+export type ProviderId = 'anthropic' | 'openai' | 'google' | 'mistral' | 'deepseek' | 'xai' | 'meta';
+
+export interface ProviderConfig {
+  id: ProviderId;
+  name: string;
+  apiEndpoint: string;
+  authHeader: string; // e.g. 'Authorization' or 'x-api-key'
+  authPrefix: string; // e.g. 'Bearer ' or '' (for x-api-key)
+  getApiKeyUrl: string;
+  keyPlaceholder: string; // e.g. 'sk-ant-...' or 'sk-...'
+}
+
 export interface Lever {
   id: string;
   name: string;
@@ -24,6 +36,7 @@ export interface ModelConfig {
   id: string;
   name: string;
   provider: string;
+  providerId: ProviderId;
   description: string;
   enabled: boolean;
   leverWeights: Record<string, number>;
@@ -36,6 +49,8 @@ export interface ModelConfig {
   }[];
   preferredStructure: string[];
   deepAnalysisPrompt?: string;
+  /** Model ID to use for deep analysis API calls (e.g. 'claude-haiku-4-5-20251001') */
+  analysisModelId?: string;
 }
 
 export interface HeuristicResult {
@@ -63,6 +78,11 @@ export interface Suggestion {
 export interface DeepAnalysisRequest {
   prompt: string;
   modelId: string;
+  providerId: ProviderId;
+  apiKey: string;
+  modelName: string;
+  systemPrompt?: string;
+  analysisModelId?: string;
 }
 
 export interface ExamplePrompt {

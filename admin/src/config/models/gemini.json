@@ -2,8 +2,10 @@
   "id": "gemini",
   "name": "Gemini",
   "provider": "Google",
-  "description": "Google's Gemini - strong multi-modal capabilities and reasoning",
+  "providerId": "google",
+  "description": "Google's Gemini models (2.5 Pro/Flash, 3.0 Preview) - strong multi-modal capabilities, massive context windows (1M+), and adaptive thinking",
   "enabled": true,
+  "analysisModelId": "gemini-2.5-flash",
   "leverWeights": {
     "prompt-length": 15,
     "context-inclusion": 20,
@@ -15,21 +17,28 @@
   },
   "bestPractices": [
     {
-      "tip": "Gemini excels at multi-step reasoning - break complex tasks into steps",
+      "tip": "Gemini excels at multi-step reasoning - break complex tasks into clear steps. Gemini 2.5+ has adaptive thinking that automatically allocates reasoning effort.",
       "examples": {
-        "good": "Step 1: Analyze the data. Step 2: Identify patterns. Step 3: Summarize findings.",
+        "good": "Step 1: Analyze the data. Step 2: Identify patterns. Step 3: Summarize findings with confidence levels.",
         "bad": "Analyze this data and give me insights"
       }
     },
     {
-      "tip": "For multi-modal tasks, be explicit about what to focus on in images/documents",
+      "tip": "Leverage Gemini's massive context window (1M+ tokens) - you can include entire documents, codebases, or datasets directly in the prompt",
       "examples": {
-        "good": "Look at the chart and extract the values for Q1-Q4. Focus on the revenue line.",
+        "good": "Here is the full codebase. Analyze all files for security vulnerabilities and cross-reference dependencies.",
+        "bad": "I have a large codebase, what should I do?"
+      }
+    },
+    {
+      "tip": "For multi-modal tasks, be explicit about what to focus on in images/documents - Gemini handles text, images, audio, and video natively",
+      "examples": {
+        "good": "Look at the chart and extract the values for Q1-Q4. Focus on the revenue line. Compare with the cost line.",
         "bad": "What's in this image?"
       }
     },
     {
-      "tip": "Gemini responds well to examples with clear input/output pairs",
+      "tip": "Gemini responds well to examples with clear input/output pairs and supports JSON schema output via response_mime_type",
       "examples": {
         "good": "Input: 'hello world' -> Output: 'HELLO WORLD'\nNow transform: 'test string'",
         "bad": "Make text uppercase"
@@ -40,8 +49,8 @@
     "Clear Task Statement",
     "Step-by-Step Instructions",
     "Examples with Input/Output",
-    "Context (if needed)",
-    "Output Format"
+    "Context (leverage large context window)",
+    "Output Format (JSON schema if needed)"
   ],
-  "deepAnalysisPrompt": "You are an expert prompt engineer. Analyze the following prompt intended for Google Gemini. Identify strengths, areas for improvement, and provide a rewritten version that leverages Gemini's strengths (multi-step reasoning, clear examples, step-by-step instructions)."
+  "deepAnalysisPrompt": "You are an expert prompt engineer specializing in Google's Gemini models (2.5 Pro, 2.5 Flash, 3.0 Preview). Analyze the following prompt and provide feedback on how to optimize it for Gemini's strengths: multi-step reasoning, large context utilization, clear examples with input/output pairs, and multi-modal capabilities."
 }

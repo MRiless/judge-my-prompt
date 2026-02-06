@@ -1,0 +1,56 @@
+{
+  "id": "deepseek",
+  "name": "DeepSeek",
+  "provider": "DeepSeek",
+  "providerId": "deepseek",
+  "description": "DeepSeek V3.2 models - powerful reasoning with chain-of-thought, cost-efficient, OpenAI-compatible API",
+  "enabled": true,
+  "analysisModelId": "deepseek-chat",
+  "leverWeights": {
+    "prompt-length": 15,
+    "context-inclusion": 20,
+    "persona-specification": 15,
+    "task-clarity": 25,
+    "examples-presence": 10,
+    "format-specification": 10,
+    "constraints-defined": 5
+  },
+  "bestPractices": [
+    {
+      "tip": "DeepSeek V3.2 excels at reasoning tasks - for complex problems, use the deepseek-reasoner model which includes chain-of-thought reasoning tokens",
+      "examples": {
+        "good": "Analyze this algorithm's time complexity step by step. Consider best case, average case, and worst case. Then suggest optimizations.",
+        "bad": "Is this algorithm fast?"
+      }
+    },
+    {
+      "tip": "DeepSeek handles code generation very well - be specific about language, framework, and requirements",
+      "examples": {
+        "good": "Write a Python FastAPI endpoint that handles file uploads. Use async/await, validate file types (PNG, JPG only, max 5MB), and return the file metadata as JSON.",
+        "bad": "Write an upload endpoint"
+      }
+    },
+    {
+      "tip": "DeepSeek follows the OpenAI message format - use system messages for context and user messages for the task",
+      "examples": {
+        "good": "System: You are a senior Python developer.\nUser: Review this code for performance issues and suggest improvements with benchmarks.",
+        "bad": "Look at my code"
+      }
+    },
+    {
+      "tip": "For math and science problems, DeepSeek's reasoning mode provides transparent chain-of-thought - frame questions to encourage thorough analysis",
+      "examples": {
+        "good": "Prove that the sum of the first n odd numbers equals n squared. Show each step of the proof clearly.",
+        "bad": "Sum of odd numbers formula?"
+      }
+    }
+  ],
+  "preferredStructure": [
+    "System Context (role/expertise)",
+    "Clear Problem Statement",
+    "Step-by-Step Requirements",
+    "Expected Output Format",
+    "Constraints and Edge Cases"
+  ],
+  "deepAnalysisPrompt": "You are an expert prompt engineer specializing in DeepSeek V3.2 models. Analyze the following prompt and provide feedback on how to optimize it for DeepSeek's strengths: deep reasoning, code generation, mathematical analysis, and structured problem-solving."
+}

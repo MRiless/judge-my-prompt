@@ -5,9 +5,10 @@ import leversRouter from './routes/levers.js';
 import modelsRouter from './routes/models.js';
 import systemRouter from './routes/system.js';
 import claudeRouter from './routes/claude.js';
+import analyzeRouter from './routes/analyze.js';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3005;
 
 // Middleware
 app.use(cors({
@@ -16,8 +17,9 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Claude proxy route - no auth required (user provides their own API key)
-app.use('/api/claude', claudeRouter);
+// AI analysis proxy routes - no auth required (user provides their own API key)
+app.use('/api/analyze', analyzeRouter);
+app.use('/api/claude', claudeRouter); // Legacy route for backwards compatibility
 
 // Auth middleware for admin routes
 app.use(authMiddleware);

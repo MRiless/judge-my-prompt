@@ -1,0 +1,56 @@
+{
+  "id": "grok",
+  "name": "Grok (xAI)",
+  "provider": "xAI",
+  "providerId": "xai",
+  "description": "xAI's Grok models (Grok 4, Grok 3) - frontier reasoning with live web search integration and large context windows",
+  "enabled": true,
+  "analysisModelId": "grok-3-mini",
+  "leverWeights": {
+    "prompt-length": 15,
+    "context-inclusion": 20,
+    "persona-specification": 15,
+    "task-clarity": 25,
+    "examples-presence": 10,
+    "format-specification": 10,
+    "constraints-defined": 5
+  },
+  "bestPractices": [
+    {
+      "tip": "Grok supports massive context (up to 2M tokens with Grok 4.1) - include full documents or codebases when relevant",
+      "examples": {
+        "good": "Here is the complete project codebase. Identify all security vulnerabilities, rank by severity, and provide fix recommendations.",
+        "bad": "Check my code for bugs"
+      }
+    },
+    {
+      "tip": "Grok has built-in live web search capability - you can ask about current events and real-time information",
+      "examples": {
+        "good": "Search for the latest best practices for React Server Components as of 2026 and summarize the key patterns with code examples.",
+        "bad": "How do React components work?"
+      }
+    },
+    {
+      "tip": "Use structured output format - Grok supports JSON schema output similar to OpenAI's format",
+      "examples": {
+        "good": "Analyze this text and return JSON with: sentiment (positive/negative/neutral), confidence (0-1), key_phrases (array of strings).",
+        "bad": "What's the sentiment?"
+      }
+    },
+    {
+      "tip": "For complex reasoning, Grok 4.1 Fast has dedicated reasoning and non-reasoning modes. Frame your request to match the depth needed.",
+      "examples": {
+        "good": "I need you to reason through this step by step: Given these database schema constraints, design an optimal indexing strategy that minimizes query latency while controlling storage overhead.",
+        "bad": "Make my database faster"
+      }
+    }
+  ],
+  "preferredStructure": [
+    "System Context/Role",
+    "Clear Task Definition",
+    "Structured Requirements",
+    "Output Format (JSON if applicable)",
+    "Constraints and Scope"
+  ],
+  "deepAnalysisPrompt": "You are an expert prompt engineer specializing in xAI's Grok models (Grok 4, Grok 3). Analyze the following prompt and provide feedback on how to optimize it for Grok's strengths: large context utilization, live search integration, structured JSON output, and multi-step reasoning."
+}

@@ -5,43 +5,68 @@
  * Easy to update when affiliate programs become available.
  */
 
+import type { ProviderId } from '@shared/types';
+
 // API Provider Affiliate/Referral Links
-// Note: Update these with actual affiliate links when programs are available
-export const apiProviders = {
+export const apiProviders: Record<ProviderId, {
+  name: string;
+  getApiKeyUrl: string;
+  description: string;
+  keyPlaceholder: string;
+}> = {
   anthropic: {
     name: 'Anthropic',
     getApiKeyUrl: 'https://console.anthropic.com/',
     description: 'Get your Claude API key',
+    keyPlaceholder: 'sk-ant-api03-...',
   },
   openai: {
     name: 'OpenAI',
     getApiKeyUrl: 'https://platform.openai.com/api-keys',
-    description: 'Get your GPT-4 API key',
+    description: 'Get your OpenAI API key',
+    keyPlaceholder: 'sk-...',
   },
   google: {
     name: 'Google AI',
     getApiKeyUrl: 'https://aistudio.google.com/app/apikey',
     description: 'Get your Gemini API key',
+    keyPlaceholder: 'AIza...',
   },
   meta: {
-    name: 'Meta AI',
-    getApiKeyUrl: 'https://llama.meta.com/',
-    description: 'Access Llama models',
+    name: 'Meta (via Together AI)',
+    getApiKeyUrl: 'https://api.together.xyz/settings/api-keys',
+    description: 'Get your Together AI API key for Llama models',
+    keyPlaceholder: 'together-...',
   },
   mistral: {
     name: 'Mistral AI',
     getApiKeyUrl: 'https://console.mistral.ai/',
     description: 'Get your Mistral API key',
+    keyPlaceholder: 'mistral-...',
   },
-} as const;
+  deepseek: {
+    name: 'DeepSeek',
+    getApiKeyUrl: 'https://platform.deepseek.com/api_keys',
+    description: 'Get your DeepSeek API key',
+    keyPlaceholder: 'sk-...',
+  },
+  xai: {
+    name: 'xAI',
+    getApiKeyUrl: 'https://console.x.ai/',
+    description: 'Get your xAI API key for Grok',
+    keyPlaceholder: 'xai-...',
+  },
+};
 
 // Model ID to provider mapping for affiliate links
-export const modelProviderMap: Record<string, keyof typeof apiProviders> = {
+export const modelProviderMap: Record<string, ProviderId> = {
   'claude': 'anthropic',
-  'gpt-4': 'openai',
+  'gpt4': 'openai',
   'gemini': 'google',
-  'llama-3': 'meta',
+  'llama': 'meta',
   'mistral': 'mistral',
+  'deepseek': 'deepseek',
+  'grok': 'xai',
 };
 
 // Support/Tip Jar Configuration
@@ -119,4 +144,9 @@ export function getProviderName(modelId: string): string {
     return apiProviders[providerId].name;
   }
   return 'your provider';
+}
+
+// Helper function to get provider config for a model
+export function getProviderForModel(modelId: string): ProviderId {
+  return modelProviderMap[modelId] || 'anthropic';
 }

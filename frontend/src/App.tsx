@@ -8,9 +8,9 @@ import ResultsPanel from './components/StrengthIndicator/ResultsPanel';
 import ConsentModal from './components/DeepAnalysis/ConsentModal';
 import HowItWorks from './components/HowItWorks/HowItWorks';
 import AdContainer from './components/Monetization/AdContainer';
-import type { DeepAnalysisResult } from '@shared/types';
+import { loadApiKeys } from './components/ApiKeySettings/ApiKeySettings';
+import type { DeepAnalysisResult, ProviderId } from '@shared/types';
 
-const STORAGE_KEY = 'prompt-judge-api-key';
 const THEME_KEY = 'prompt-judge-theme';
 
 type Theme = 'light' | 'dark';
@@ -37,6 +37,7 @@ function App() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<DeepAnalysisResult | null>(null);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
+  const [apiKeys, setApiKeys] = useState<Record<string, string>>({});
 
   // Apply theme to document
   useEffect(() => {
@@ -44,27 +45,38 @@ function App() {
     localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
 
-  // Check for saved API key on mount
+  // Load saved API keys on mount
   useEffect(() => {
-    const savedKey = localStorage.getItem(STORAGE_KEY);
-    if (savedKey) {
-      deepAnalysisService.configure(savedKey);
-    }
+    const savedKeys = loadApiKeys();
+    setApiKeys(savedKeys);
+    deepAnalysisService.configureAll(savedKeys);
   }, []);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  const handleDeepAnalysis = () => {
-    if (!deepAnalysisService.isConfigured()) {
-      const key = window.prompt('Enter your Anthropic API key for Deep Analysis:\n\n(Stored locally in your browser only)');
+  const handleApiKeyChange = (providerId: ProviderId, key: string) => {
+    setApiKeys(prev => {
+      const updated = { ...prev };
       if (key) {
-        localStorage.setItem(STORAGE_KEY, key);
-        deepAnalysisService.configure(key);
+        updated[providerId] = key;
       } else {
-        return;
+        delete updated[providerId];
       }
+      deepAnalysisService.configureAll(updated);
+      return updated;
+    });
+  };
+
+  const handleDeepAnalysis = () => {
+    const model = models.find(m => m.id === selectedModel);
+    const providerId = model?.providerId || 'anthropic';
+
+    if (!deepAnalysisService.isConfiguredFor(providerId)) {
+      // Instead of window.prompt, set an error that guides the user to the API key settings
+      setAnalysisError(`No API key set for ${model?.provider || 'this provider'}. Expand the "API Key" section below and add your key.`);
+      return;
     }
     setShowConsentModal(true);
   };
@@ -150,6 +162,8 @@ function App() {
             analysisResult={analysisResult}
             analysisError={analysisError}
             onUseImprovedPrompt={handleUseImprovedPrompt}
+            apiKeys={apiKeys}
+            onApiKeyChange={handleApiKeyChange}
           />
         </div>
       </main>
