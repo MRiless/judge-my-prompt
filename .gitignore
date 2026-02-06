@@ -36,6 +36,12 @@ coverage/
 # Docker
 .docker/
 
+# Admin frontend (separate dev tool, not deployed)
+admin-frontend/
+
+# Lock files
+package-lock.json
+
 # Misc
 *.orig
 .playwright-mcp/
