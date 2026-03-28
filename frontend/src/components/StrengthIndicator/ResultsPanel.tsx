@@ -8,6 +8,8 @@ interface ResultsPanelProps {
   isEvaluating: boolean;
   isAnalyzing: boolean;
   selectedModel: string;
+  selectedJudgeModel: string;
+  onJudgeModelChange: (modelId: string) => void;
   models: ModelConfig[];
   onDeepAnalysis: () => void;
   hasPrompt: boolean;
@@ -23,6 +25,8 @@ function ResultsPanel({
   isEvaluating,
   isAnalyzing,
   selectedModel,
+  selectedJudgeModel,
+  onJudgeModelChange,
   models,
   onDeepAnalysis,
   hasPrompt,
@@ -34,8 +38,9 @@ function ResultsPanel({
 }: ResultsPanelProps) {
   const [showBreakdown, setShowBreakdown] = useState(false);
   const model = models.find(m => m.id === selectedModel);
-  const providerId = model?.providerId || getProviderForModel(selectedModel);
-  const providerName = model?.provider || getProviderName(selectedModel);
+  const judgeModel = models.find(m => m.id === selectedJudgeModel);
+  const judgeProviderId = judgeModel?.providerId || getProviderForModel(selectedJudgeModel);
+  const judgeProviderName = judgeModel?.provider || getProviderName(selectedJudgeModel);
 
   if (!hasPrompt || !result) {
     return (
@@ -240,8 +245,21 @@ function ResultsPanel({
         </div>
       )}
 
-      {/* Deep Analysis Button */}
+      {/* Judge Model Selector + Deep Analysis Button */}
       <div className="deep-analysis-section">
+        <div className="judge-model-selector">
+          <label htmlFor="judge-model">Analyze with:</label>
+          <select
+            id="judge-model"
+            value={selectedJudgeModel}
+            onChange={(e) => onJudgeModelChange(e.target.value)}
+            disabled={isAnalyzing}
+          >
+            {models.filter(m => m.enabled).map(m => (
+              <option key={m.id} value={m.id}>{m.name}</option>
+            ))}
+          </select>
+        </div>
         <button
           className="deep-analysis-button"
           onClick={onDeepAnalysis}
@@ -250,26 +268,26 @@ function ResultsPanel({
           {isAnalyzing ? (
             <>
               <span className="spinner" />
-              Analyzing with {providerName}...
+              Analyzing with {judgeProviderName}...
             </>
           ) : (
             <>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8 3V13M3 8H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
               </svg>
-              Deep Analysis with {model?.name || 'AI'}
+              Deep Analysis with {judgeModel?.name || 'AI'}
             </>
           )}
         </button>
         <p className="deep-analysis-note">
-          Uses your {providerName} API key to analyze your prompt
+          Uses your {judgeProviderName} API key to judge your prompt for {model?.name || 'the target model'}
         </p>
       </div>
 
       {/* API Key Settings */}
       <ApiKeySettings
-        providerId={providerId}
-        providerName={providerName}
+        providerId={judgeProviderId}
+        providerName={judgeProviderName}
         onKeyChange={onApiKeyChange}
         apiKeys={apiKeys}
       />

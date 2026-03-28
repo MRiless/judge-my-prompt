@@ -120,6 +120,8 @@ const defaultModels: ModelConfig[] = [
     description: 'Anthropic\'s Claude models (Opus 4.6, Sonnet 4.5, Haiku 4.5)',
     enabled: true,
     analysisModelId: 'claude-haiku-4-5-20251001',
+    judgeInstructions: 'You are an expert prompt engineer. Structure your analysis using clear sections. Use XML tags like <strengths> and <improvements> to organize your reasoning. Provide precise, direct feedback with specific examples of how to improve.',
+    targetExpertise: 'Claude excels at nuanced reasoning, following complex multi-step instructions, XML-structured prompts, extended thinking for hard problems, and careful adherence to constraints and formatting requirements.',
     leverWeights: { 'prompt-length': 15, 'context-inclusion': 25, 'persona-specification': 15, 'task-clarity': 20, 'examples-presence': 10, 'format-specification': 5, 'constraints-defined': 10 },
     bestPractices: [
       { tip: 'Use XML tags to structure your prompt (e.g., <context>, <task>, <constraints>)' },
@@ -137,6 +139,8 @@ const defaultModels: ModelConfig[] = [
     description: 'OpenAI\'s GPT models (GPT-4.1, GPT-4o, o3/o4-mini)',
     enabled: true,
     analysisModelId: 'gpt-4.1-mini',
+    judgeInstructions: 'You are an expert prompt engineer. Use markdown headers and numbered lists to structure your analysis. Provide concrete examples showing before/after improvements. Be systematic and thorough.',
+    targetExpertise: 'GPT models excel at following system prompts, structured JSON output, numeric constraint adherence, creative writing, and leveraging markdown formatting for organized responses.',
     leverWeights: { 'prompt-length': 15, 'context-inclusion': 20, 'persona-specification': 20, 'task-clarity': 20, 'examples-presence': 10, 'format-specification': 10, 'constraints-defined': 5 },
     bestPractices: [
       { tip: 'GPT models excel when you specify numeric constraints (length, count, etc.)' },
@@ -153,6 +157,8 @@ const defaultModels: ModelConfig[] = [
     description: 'Google\'s Gemini models (2.5 Pro/Flash, 3.0 Preview)',
     enabled: true,
     analysisModelId: 'gemini-2.5-flash',
+    judgeInstructions: 'You are an expert prompt engineer. Use a multi-step systematic analysis approach. Clearly separate your input analysis from output recommendations. Provide clear input/output examples showing improvements.',
+    targetExpertise: 'Gemini excels at multi-step adaptive reasoning, massive context window processing (1M+ tokens), multimodal understanding, and responding well to examples with clear input/output pairs.',
     leverWeights: { 'prompt-length': 15, 'context-inclusion': 20, 'persona-specification': 10, 'task-clarity': 25, 'examples-presence': 15, 'format-specification': 10, 'constraints-defined': 5 },
     bestPractices: [
       { tip: 'Gemini excels at multi-step reasoning with adaptive thinking - break complex tasks into steps' },
@@ -169,6 +175,8 @@ const defaultModels: ModelConfig[] = [
     description: 'Meta\'s Llama 4 models (Maverick 400B, Scout 109B)',
     enabled: true,
     analysisModelId: 'meta-llama/Llama-4-Maverick-17B-128E-Instruct',
+    judgeInstructions: 'You are an expert prompt engineer. Provide direct, focused analysis with explicit recommendations. Use bullet points for clarity. Be concise and actionable in your feedback.',
+    targetExpertise: 'Llama 4 excels at direct instruction following, focused context processing via MoE expert routing, code generation, and performing well with explicit, unambiguous prompts.',
     leverWeights: { 'prompt-length': 20, 'context-inclusion': 20, 'persona-specification': 15, 'task-clarity': 25, 'examples-presence': 10, 'format-specification': 5, 'constraints-defined': 5 },
     bestPractices: [
       { tip: 'Llama 4 benefits from explicit, direct instructions without ambiguity' },
@@ -184,6 +192,8 @@ const defaultModels: ModelConfig[] = [
     description: 'Mistral AI models (Large 3, Medium 3, Codestral)',
     enabled: true,
     analysisModelId: 'mistral-small-latest',
+    judgeInstructions: 'You are an expert prompt engineer. Use well-structured bullet points and clear sections to organize your analysis. Provide specific, actionable recommendations with before/after comparisons.',
+    targetExpertise: 'Mistral excels at well-structured instruction following, few-shot learning from examples, code generation with Codestral, and multilingual tasks.',
     leverWeights: { 'prompt-length': 15, 'context-inclusion': 15, 'persona-specification': 15, 'task-clarity': 25, 'examples-presence': 15, 'format-specification': 10, 'constraints-defined': 5 },
     bestPractices: [
       { tip: 'Mistral excels with clear, well-structured instructions' },
@@ -199,6 +209,8 @@ const defaultModels: ModelConfig[] = [
     description: 'DeepSeek V3.2 - powerful reasoning with chain-of-thought',
     enabled: true,
     analysisModelId: 'deepseek-chat',
+    judgeInstructions: 'You are an expert prompt engineer. Use step-by-step reasoning to analyze the prompt thoroughly. Provide a detailed assessment with clear logical progression from observation to recommendation.',
+    targetExpertise: 'DeepSeek excels at deep reasoning with chain-of-thought, code generation, mathematical analysis, and structured problem-solving with step-by-step requirements.',
     leverWeights: { 'prompt-length': 15, 'context-inclusion': 20, 'persona-specification': 15, 'task-clarity': 25, 'examples-presence': 10, 'format-specification': 10, 'constraints-defined': 5 },
     bestPractices: [
       { tip: 'DeepSeek excels at reasoning - use the deepseek-reasoner model for complex analysis' },
@@ -214,6 +226,8 @@ const defaultModels: ModelConfig[] = [
     description: 'xAI\'s Grok models (Grok 4, Grok 3) - frontier reasoning with web search',
     enabled: true,
     analysisModelId: 'grok-3-mini',
+    judgeInstructions: 'You are an expert prompt engineer. Provide comprehensive, well-structured analysis using clear reasoning chains. Be thorough in your assessment while remaining actionable and specific.',
+    targetExpertise: 'Grok excels at frontier reasoning, massive context processing (up to 2M tokens), built-in live web search for current events, and comprehensive analysis tasks.',
     leverWeights: { 'prompt-length': 15, 'context-inclusion': 20, 'persona-specification': 15, 'task-clarity': 25, 'examples-presence': 10, 'format-specification': 10, 'constraints-defined': 5 },
     bestPractices: [
       { tip: 'Grok supports massive context (up to 2M tokens) - include full documents when relevant' },

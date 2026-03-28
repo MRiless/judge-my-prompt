@@ -24,9 +24,16 @@ FROM nginx:alpine
 # Copy built assets
 COPY --from=builder /build/frontend/dist /usr/share/nginx/html
 
-# Copy nginx configuration
-COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
+# Copy nginx template (envsubst will render it at runtime)
+COPY frontend/nginx.conf.template /etc/nginx/templates/default.conf.template
+
+# Default backend host for docker-compose compatibility
+ENV BACKEND_HOST=admin
+ENV BACKEND_PORT=3001
 
 EXPOSE 80
 
+# The official nginx image entrypoint processes /etc/nginx/templates/*.template
+# via envsubst, outputting to /etc/nginx/conf.d/. It only substitutes actual
+# environment variables, preserving nginx variables ($uri, $host, etc.).
 CMD ["nginx", "-g", "daemon off;"]

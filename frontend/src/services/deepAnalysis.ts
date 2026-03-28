@@ -27,17 +27,24 @@ export class DeepAnalysisService {
 
   async analyze(
     prompt: string,
-    modelConfig: ModelConfig
+    judgeModelConfig: ModelConfig,
+    targetModelConfig: ModelConfig
   ): Promise<DeepAnalysisResult> {
-    const providerId = modelConfig.providerId || 'anthropic';
+    const providerId = judgeModelConfig.providerId || 'anthropic';
     const apiKey = this.apiKeys[providerId];
 
     if (!apiKey) {
-      throw new Error(`No API key configured for ${modelConfig.provider}. Please add your ${modelConfig.provider} API key in the settings below.`);
+      throw new Error(`No API key configured for ${judgeModelConfig.provider}. Please add your ${judgeModelConfig.provider} API key in the settings below.`);
     }
 
-    const systemPrompt = modelConfig.deepAnalysisPrompt ||
-      `You are an expert prompt engineer. Analyze prompts and provide actionable feedback to improve them for ${modelConfig.name}.`;
+    // Compose system prompt: judge instructions + target expertise
+    const judgeInstructions = judgeModelConfig.judgeInstructions ||
+      `You are an expert prompt engineer. Analyze prompts and provide actionable feedback.`;
+    const targetExpertise = targetModelConfig.targetExpertise ||
+      targetModelConfig.deepAnalysisPrompt ||
+      `${targetModelConfig.name} is a powerful AI model.`;
+
+    const systemPrompt = `${judgeInstructions}\n\nThe user is optimizing prompts for ${targetModelConfig.name}. ${targetExpertise}\nFocus your evaluation on how well the prompt leverages these strengths.`;
 
     // Use the new multi-provider backend endpoint
     const response = await fetch('/api/analyze', {
@@ -48,10 +55,10 @@ export class DeepAnalysisService {
       body: JSON.stringify({
         apiKey,
         prompt,
-        modelName: modelConfig.name,
+        modelName: targetModelConfig.name,
         systemPrompt,
         providerId,
-        analysisModelId: modelConfig.analysisModelId,
+        analysisModelId: judgeModelConfig.analysisModelId,
       }),
     });
 

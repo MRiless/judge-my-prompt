@@ -12,6 +12,7 @@ import { loadApiKeys } from './components/ApiKeySettings/ApiKeySettings';
 import type { DeepAnalysisResult, ProviderId } from '@shared/types';
 
 const THEME_KEY = 'prompt-judge-theme';
+const JUDGE_MODEL_KEY = 'prompt-judge-judge-model';
 
 type Theme = 'light' | 'dark';
 
@@ -25,6 +26,10 @@ function App() {
     isEvaluating,
     models,
   } = usePromptEvaluation({ debounceMs: 300 });
+
+  const [selectedJudgeModel, setSelectedJudgeModel] = useState(() => {
+    return localStorage.getItem(JUDGE_MODEL_KEY) || 'claude';
+  });
 
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = localStorage.getItem(THEME_KEY) as Theme | null;
@@ -52,6 +57,13 @@ function App() {
     deepAnalysisService.configureAll(savedKeys);
   }, []);
 
+  const handleJudgeModelChange = (modelId: string) => {
+    setSelectedJudgeModel(modelId);
+    localStorage.setItem(JUDGE_MODEL_KEY, modelId);
+    setAnalysisResult(null);
+    setAnalysisError(null);
+  };
+
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
@@ -70,12 +82,11 @@ function App() {
   };
 
   const handleDeepAnalysis = () => {
-    const model = models.find(m => m.id === selectedModel);
-    const providerId = model?.providerId || 'anthropic';
+    const judgeModel = models.find(m => m.id === selectedJudgeModel);
+    const providerId = judgeModel?.providerId || 'anthropic';
 
     if (!deepAnalysisService.isConfiguredFor(providerId)) {
-      // Instead of window.prompt, set an error that guides the user to the API key settings
-      setAnalysisError(`No API key set for ${model?.provider || 'this provider'}. Expand the "API Key" section below and add your key.`);
+      setAnalysisError(`No API key set for ${judgeModel?.provider || 'this provider'}. Expand the "API Key" section below and add your key.`);
       return;
     }
     setShowConsentModal(true);
@@ -87,15 +98,16 @@ function App() {
     setAnalysisError(null);
     setAnalysisResult(null);
 
-    const model = models.find(m => m.id === selectedModel);
-    if (!model) {
+    const targetModel = models.find(m => m.id === selectedModel);
+    const judgeModel = models.find(m => m.id === selectedJudgeModel);
+    if (!targetModel || !judgeModel) {
       setAnalysisError('Model not found');
       setIsAnalyzing(false);
       return;
     }
 
     try {
-      const result = await deepAnalysisService.analyze(prompt, model);
+      const result = await deepAnalysisService.analyze(prompt, judgeModel, targetModel);
       setAnalysisResult(result);
     } catch (err) {
       console.error('Deep analysis error:', err);
@@ -156,6 +168,8 @@ function App() {
             isEvaluating={isEvaluating}
             isAnalyzing={isAnalyzing}
             selectedModel={selectedModel}
+            selectedJudgeModel={selectedJudgeModel}
+            onJudgeModelChange={handleJudgeModelChange}
             models={models}
             onDeepAnalysis={handleDeepAnalysis}
             hasPrompt={prompt.trim().length > 0}

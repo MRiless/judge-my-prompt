@@ -49,6 +49,10 @@ export interface ModelConfig {
   }[];
   preferredStructure: string[];
   deepAnalysisPrompt?: string;
+  /** Instructions optimized for how to communicate WITH this model when it's the judge */
+  judgeInstructions?: string;
+  /** Target expertise context - what this model excels at, used when it's the target */
+  targetExpertise?: string;
   /** Model ID to use for deep analysis API calls (e.g. 'claude-haiku-4-5-20251001') */
   analysisModelId?: string;
 }

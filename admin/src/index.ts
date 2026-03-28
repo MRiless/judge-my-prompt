@@ -17,6 +17,9 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Health check for Railway/container orchestration
+app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
+
 // AI analysis proxy routes - no auth required (user provides their own API key)
 app.use('/api/analyze', analyzeRouter);
 app.use('/api/claude', claudeRouter); // Legacy route for backwards compatibility

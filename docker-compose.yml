@@ -7,6 +7,9 @@ services:
       dockerfile: frontend/Dockerfile
     ports:
       - "8090:80"
+    environment:
+      - BACKEND_HOST=admin
+      - BACKEND_PORT=3001
     restart: unless-stopped
     networks:
       - prompt-judge-network
